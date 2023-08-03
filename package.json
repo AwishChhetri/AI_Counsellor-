@@ -6,18 +6,23 @@
     "express-session": "^1.17.3",
     "fs": "^0.0.1-security",
     "mongoose": "^7.4.1",
+    "netlify-cli": "^15.10.0",
+    "netlify-lambda": "^2.0.16",
     "nodemon": "^3.0.1",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^8.0.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "serverless-http": "^3.2.0"
   },
   "name": "welling",
   "version": "1.0.0",
   "main": "index.js",
+
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+
   "author": "",
   "license": "ISC",
   "description": ""

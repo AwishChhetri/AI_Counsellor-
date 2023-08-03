@@ -1,25 +1,10 @@
-# Use an official Node.js runtime as the base image
-FROM node:14
-
-# Set the working directory inside the container
-WORKDIR /index
-
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
-
-# Install dependencies
+FROM node:12-alpine
+Run apk --no-cache python2 g++ make
+WORDIR /index
+COPY..
 RUN npm install
-
-# Copy the rest of the application code to the container
-COPY . .
-
-# Expose the port your index runs on
+CMD ["node","index.js"]
 EXPOSE 3000
-
-# Command to run your index
-CMD [ "node", "index.js" ]
-
-
 
 
 

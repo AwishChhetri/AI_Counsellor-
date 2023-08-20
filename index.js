@@ -1,32 +1,26 @@
 const express=require('express');
 const ejs=require('ejs');
 const app=express();
+const cookieParser=require('cookie-parser');
 const mongoose=require('mongoose');
 const bodyParser=require('body-parser');
 const db='mongodb+srv://abishchhetri2502:E4rz8WbOgI7Yd532@cluster0.gqrw9qd.mongodb.net/Welling?retryWrites=true&w=majority'
-const session =require('express-session');
-const passport=require('passport');
-const passportLocalMongoose=require('passport-local-mongoose');
-
-
+const jwt=require('jsonwebtoken')
+secretKey="HelloEveryOne"
 app.use(express.static(__dirname+'/public'));
 app.set('view engine','ejs');
 app.use(bodyParser.urlencoded({extended:true}))
+app.use(cookieParser());
+app.use(express.json())
 
-app.use(session({
-    secret:"WeCareForOurCommunity.",
-    resave:false,
-    saveUninitialized:false
-}));
 
-app.use(passport.initialize());
-app.use(passport.session());
 
 
 mongoose.connect(db).then(()=>{
     console.log('connected successful')}).catch((err)=>{
         console.log(err)
 })
+// mongoose.set('useCreateIndex',true);
 
 const userSchema=mongoose.Schema({
     firstName:{
@@ -49,26 +43,13 @@ const userSchema=mongoose.Schema({
 
 {
     timestamps:true
-})
+});
 
-userSchema.plugin(passportLocalMongoose)
+
 
 const User=new mongoose.model('user', userSchema);
-passport.use(User.createStrategy());
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 
-app.get("/Questions",(req,res)=>{
-    // console.log(req.isAuthenticated())
-    // if(req.isAuthenticated()){
-    //     res.render('Questions');
-    // }
-    // else{
-    //     res.redirect('/login')
-    // }
-   res.render('Questions');
-})
 
 app.get("/login",(req,res)=>{
     res.render('login');
@@ -96,50 +77,121 @@ app.post("/register",async(req,res)=>{
         console.log(userSave)
 
         userSave.save()
+        res.redirect('/login')
 
     }
     catch(err){
         console.log(err)
     }
 
-//     User.register(
-//         new User({
-//             username: req.body.email,
-//             email:req.body.email,
-//             phoneNumber: req.body.phoneNumber,
-//             fullname: req.body.fullName,
-//           }),
-//           req.body.password,
-//         function(err, user){
-//         if(err){
-//             console.log(err);
-//             res.redirect("/login");
-//         }else{
-//             passport.authenticate('local')(req,res, function(){
-//                 console.log(user)
-//                 res.redirect('/Questions')
-//             })
-//         }
-//     })
+
+
 })
+
+const checkAuth = (req, res, next)=> {
+    const authHeader = req.cookies.__token;
+    console.log(authHeader,'authHeader');
+    const token = req.cookies.__token;
+    if(!token){
+        res.redirect("/login")
+        return false
+    }
+    jwt.verify(token, secretKey, async(err,decoded) => {
+        if(err) throw err;
+        console.log(decoded)
+        if(decoded.ID){
+            await User.findOne({
+                _id:decoded.ID
+            }).then((response)=>{
+                console.log(response,'response')
+                req.user=response;
+                next()
+            }).catch((errs)=>{
+                console.log(errs)
+            })
+        }else{
+            res.send('Invalid signature');
+            return redirect('/login')
+        }
+   
+   
+    })
+  }
+
+
+  app.get("/Account",checkAuth,(req,res)=>{
+    console.log("louuuuuuuu",req.user);
+    if(req.user){
+        console.log("this is question route",req.user.firstName)
+        // res.render("secrets",{Fname:req.user.firstname,
+        //     Lname:req.user.lastname,
+        //     Email:req.user.email,
+        //     Age:req.user.Age,
+        //     Image:req.user.image,
+        // });
+        res.render('account',{name:req.user.firstName, email:req.user.email, phone:req.user.phoneNumber});
+
+    }else{
+        res.redirect('/login')
+    }
+   
+   
+})
+
+app.get("/Questions",checkAuth,(req,res)=>{
+    console.log("louuuuuuuu",req.user);
+    if(req.user){
+        console.log("this is question route",req.user.firstName)
+        // res.render("secrets",{Fname:req.user.firstname,
+        //     Lname:req.user.lastname,
+        //     Email:req.user.email,
+        //     Age:req.user.Age,
+        //     Image:req.user.image,
+        // });
+        res.render('Questions',{name:req.user.firstName, email:req.user.email, phone:req.user.phoneNumber});
+
+    }else{
+        res.redirect('/login')
+    }
+   
+   
+})
+
 
 app.post("/login",async(req,res)=>{
     console.log('This is for login:',req.body)
 
     const result=await User.findOne({email:req.body.email});
+   
     console.log(result)
     if(!result)
      {console.log(" Not resgistered ");
       res.redirect(`/login`)}
     else { 
-        if(req.body.password==result.password){
-            res.redirect('/Questions')
-        }
-        else{
-            console.log("Wrong Password")
-            res.redirect("/login")
-        }
+        const token = jwt.sign({ID:result._id}, secretKey, { expiresIn: '1h' });
+                console.log(`Hence the generated token:${token}`);
+                res.cookie('__token',token);
+                // console.log(res);
+                res.redirect('/Account');
+
     } 
+
+    // const user=new User({
+    //     username:req.body.email,
+    //     passpord:req.body.passpord
+    // })
+// console.log(user)
+    // req.login(user,function(err){
+    //     if(err){
+    //         console.log(err);
+    //     }
+    //     else{
+    //         passport.authenticate("local")(req,res,function(){
+    //             console.log(user)
+    //             res.redirect("/Questions")
+    //         })
+    //     }
+    // })
 })
 
 
@@ -157,6 +209,8 @@ app.post('/Questions',(req,res)=>{
 
     console.log(sum);
 
+   
+    
     if(sum>=16){
         res.status(200).json({ message: "Your are healthy"});
     }
@@ -170,7 +224,7 @@ app.post('/Questions',(req,res)=>{
     }
 
     else{
-        res.status(200).json({ message: "You need to visit a medical professional."});
+        res.status(200).json({ message: "You didnot make the choice"});
 
     }
 

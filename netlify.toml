@@ -31,4 +31,4 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"  # Optional: Add Netlify plugins if needed
   [plugins.inputs]
-    command = "npm run build"  # Example: Build a Next.js site
+    command = "npm start"  # Example: Build a Next.js site

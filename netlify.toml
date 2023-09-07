@@ -1,3 +1,0 @@
-[build]
-  publish = "public"  # Replace with your Node.js app's build output directory
-  command = "npm install"

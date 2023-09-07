@@ -6,13 +6,14 @@ const mongoose=require('mongoose');
 const bodyParser=require('body-parser');
 const db="mongodb+srv://abishchhetri2502:5RedEYg7DsGaIdEA@cluster0.we93acd.mongodb.net/Welling?retryWrites=true&w=majority"
 const jwt=require('jsonwebtoken')
-
+const PORT= process.env.PORT || 3000
 secretKey="HelloEveryOne"
 app.use(express.static(__dirname+'/public'));
 app.set('view engine','ejs');
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(cookieParser());
 app.use(express.json())
+
 
 
 
@@ -233,7 +234,7 @@ app.post('/Questions',(req,res)=>{
  
     
 })
-app.listen(3000,function(){
+app.listen(PORT,function(){
     console.log("Server at 3000");
 })
 

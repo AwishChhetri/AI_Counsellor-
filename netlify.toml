@@ -1,7 +1,0 @@
-# netlify.toml
-
-[build]
-  command = "hugo"
-  publish = "public"
-
-

@@ -1,6 +1,7 @@
 const express=require('express');
 const ejs=require('ejs');
 const app=express();
+const serverless = require('serverless-http');
 const cookieParser=require('cookie-parser');
 const mongoose=require('mongoose');
 const bodyParser=require('body-parser');
@@ -238,3 +239,4 @@ app.listen(PORT,function(){
     console.log("Server at 3000");
 })
 
+module.exports.expressApp = serverless(app);

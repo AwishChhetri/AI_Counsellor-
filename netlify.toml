@@ -1,0 +1,34 @@
+[build]
+  publish = "public"
+  command = "hugo"
+
+[context.production.environment]
+  HUGO_VERSION = "0.88.1"  # Replace with your desired Hugo version
+
+[context.deploy-preview.environment]
+  HUGO_VERSION = "0.88.1"  # Replace with your desired Hugo version
+
+[context.branch-deploy.environment]
+  HUGO_VERSION = "0.88.1"  # Replace with your desired Hugo version
+
+[build.environment]
+  # Optional: Set environment variables used during the build process
+  # Example: If you need to set environment variables for Hugo, specify them here.
+  # MY_CUSTOM_ENV_VAR = "my-value"
+
+[context.production]
+  # Optional: Set context-specific settings for production builds
+  # Example: Headers, redirects, etc.
+
+[context.deploy-preview]
+  # Optional: Set context-specific settings for deploy preview builds
+  # Example: Headers, redirects, etc.
+
+[context.branch-deploy]
+  # Optional: Set context-specific settings for branch deploy builds
+  # Example: Headers, redirects, etc.
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"  # Optional: Add Netlify plugins if needed
+  [plugins.inputs]
+    command = "npm run build"  # Example: Build a Next.js site

@@ -4,8 +4,9 @@ const app=express();
 const cookieParser=require('cookie-parser');
 const mongoose=require('mongoose');
 const bodyParser=require('body-parser');
-const db='mongodb+srv://abishchhetri2502:E4rz8WbOgI7Yd532@cluster0.gqrw9qd.mongodb.net/Welling?retryWrites=true&w=majority'
+const db="mongodb+srv://abishchhetri2502:5RedEYg7DsGaIdEA@cluster0.we93acd.mongodb.net/Welling?retryWrites=true&w=majority"
 const jwt=require('jsonwebtoken')
+
 secretKey="HelloEveryOne"
 app.use(express.static(__dirname+'/public'));
 app.set('view engine','ejs');

@@ -1,2 +1,17 @@
-build
-    function="function"
+# netlify.toml
+
+[build]
+  command = "hugo"
+  publish = "public"
+
+[context.production.environment]
+  HUGO_VERSION = "0.88.1"
+  NODE_VERSION = "14"
+
+[context.deploy-preview.environment]
+  HUGO_VERSION = "0.88.1"
+  NODE_VERSION = "14"
+
+[context.branch-deploy.environment]
+  HUGO_VERSION = "0.88.1"
+  NODE_VERSION = "14"

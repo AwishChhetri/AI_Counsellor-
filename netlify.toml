@@ -29,6 +29,6 @@
   # Example: Headers, redirects, etc.
 
 [[plugins]]
-  package = "@netlify/plugin-nextjs"  # Optional: Add Netlify plugins if needed
+  package = "@netlify/plugin-node.js"  # Optional: Add Netlify plugins if needed
   [plugins.inputs]
     command = "npm start"  # Example: Build a Next.js site

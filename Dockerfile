@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 FROM node:14
 
 WORKDIR /index.js
@@ -6,21 +6,18 @@ WORKDIR /index.js
 COPY package*.json ./
 
 # Install dependencies
-=======
-FROM node:12-alpine
-Run apk --no-cache python2 g++ make
-WORDIR /index
-COPY..
->>>>>>> 972b6cf30abb7c4ec57d596f69981c49a20a0dac
 RUN npm install
+
+# Set the working directory to /index
+WORKDIR /index
+
+# Copy the project files to the working directory
+COPY . .
+
 CMD ["node","index.js"]
-EXPOSE 3000
 
-<<<<<<< HEAD
+# Expose port 3000
+# (No changes required as only one port is exposed)
+
 # Command to run your index
-CMD [ "node", "index.js" ]
-=======
-
-
->>>>>>> 972b6cf30abb7c4ec57d596f69981c49a20a0dac
-
+# (No changes required as this is the correct command to run the index)

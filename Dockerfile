@@ -1,26 +1,19 @@
-<<<<<<< HEAD
-FROM node:14
 
-WORKDIR /index.js
-
-COPY package*.json ./
-
-# Install dependencies
-=======
 FROM node:12-alpine
-Run apk --no-cache python2 g++ make
-WORDIR /index
-COPY..
->>>>>>> 972b6cf30abb7c4ec57d596f69981c49a20a0dac
+# Changed the base image to node:12-alpine, as node:14 was giving an error
+
+RUN apk --no-cache add python2 g++ make
+# Corrected the typo "Run" to "RUN" and added "add" after "--no-cache"
+
+WORKDIR /index
+# Corrected the typo "WORDIR" to "WORKDIR" and changed the directory to "/index"
+
+COPY . .
+# Added a space between "COPY" and ".."
+
 RUN npm install
 CMD ["node","index.js"]
 EXPOSE 3000
 
-<<<<<<< HEAD
-# Command to run your index
-CMD [ "node", "index.js" ]
-=======
-
-
->>>>>>> 972b6cf30abb7c4ec57d596f69981c49a20a0dac
+# Removed the duplicate "CMD" command
 

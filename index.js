@@ -7,7 +7,7 @@ const mongoose=require('mongoose');
 const bodyParser=require('body-parser');
 const db="mongodb+srv://abishchhetri2502:5RedEYg7DsGaIdEA@cluster0.we93acd.mongodb.net/Welling?retryWrites=true&w=majority"
 const jwt=require('jsonwebtoken')
-const PORT= process.env.PORT || 3000
+const PORT= process.env.PORT || 8080
 secretKey="HelloEveryOne"
 app.use(express.static(__dirname+'/public'));
 app.set('view engine','ejs');

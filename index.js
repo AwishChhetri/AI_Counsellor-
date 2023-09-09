@@ -18,6 +18,10 @@ app.use(express.json())
 
 require('dotenv').config();
 
+const AbortController = require('abort-controller');
+
+
+
 
 
 mongoose.connect(process.env.uri).then(()=>{
@@ -191,21 +195,36 @@ const openai = new OpenAI({
 });
 
 // Define a function to get a chat prompt
+// Define a custom cancel flag
+let shouldCancel = true;
+
 async function getPrompt(prompt) {
   try {
+    if (shouldCancel) {
+      // Handle request cancellation here
+      console.log('Request canceled');
+      return null;
+    }
+
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: prompt,
       temperature: 0.6,
       max_tokens: 200,
     });
+
     return response.choices[0].message.content;
-    // return response.data.choices[0].message.content;
   } catch (error) {
     console.error('Error:', error);
     throw error;
   }
 }
+
+// To cancel a request, set shouldCancel to true before calling getPrompt
+shouldCancel = false;
+
+  
+  
 
 app.use(express.json());
 

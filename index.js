@@ -1,6 +1,7 @@
 const express=require('express');
 const ejs=require('ejs');
 const app=express();
+const OpenAI = require('openai');
 const serverless = require('serverless-http');
 const cookieParser=require('cookie-parser');
 const mongoose=require('mongoose');
@@ -39,9 +40,11 @@ const userSchema=mongoose.Schema({
     password:{
         type:String
     },
-    messgae:{
-        type:String
+    message:{
+        type:String,
+        default:"You haven't taken the test."
     }
+
 },
 
 {
@@ -67,7 +70,6 @@ app.get("/",(req,res)=>{
 // post method starts here
 
 app.post("/register",async(req,res)=>{
-    console.log('This is for register',req.body);
     
     try{
         const userSave=new User({
@@ -123,7 +125,6 @@ const checkAuth = (req, res, next)=> {
 
 
   app.get("/Account",checkAuth,(req,res)=>{
-    console.log("louuuuuuuu",req.user);
     if(req.user){
         console.log("this is question route",req.user.firstName)
         // res.render("secrets",{Fname:req.user.firstname,
@@ -132,7 +133,7 @@ const checkAuth = (req, res, next)=> {
         //     Age:req.user.Age,
         //     Image:req.user.image,
         // });
-        res.render('account',{name:req.user.firstName, email:req.user.email, phone:req.user.phoneNumber});
+        res.render('account',{name:req.user.firstName, email:req.user.email, phone:req.user.phoneNumber, message:req.user.message});
 
     }else{
         res.redirect('/login')
@@ -142,7 +143,6 @@ const checkAuth = (req, res, next)=> {
 })
 
 app.get("/Questions",checkAuth,(req,res)=>{
-    console.log("louuuuuuuu",req.user);
     if(req.user){
         console.log("this is question route",req.user.firstName)
         // res.render("secrets",{Fname:req.user.firstname,
@@ -171,7 +171,7 @@ app.post("/login",async(req,res)=>{
      {console.log(" Not resgistered ");
       res.redirect(`/login`)}
     else { 
-        const token = jwt.sign({ID:result._id}, secretKey, { expiresIn: '1h' });
+        const token = jwt.sign({ID:result._id}, secretKey, { expiresIn: '30d' });
                 console.log(`Hence the generated token:${token}`);
                 res.cookie('__token',token);
                 // console.log(res);
@@ -198,45 +198,124 @@ app.post("/login",async(req,res)=>{
 })
 
 
-app.post('/Questions',(req,res)=>{
-    console.log(req.body);
 
-    const scores = req.body;
+// Initialize the OpenAI instance with your API key
+const openai = new OpenAI({
+  apiKey: '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',
+});
 
-    let sum = 0;
-    for (const key in scores) {
-        if (scores.hasOwnProperty(key)) {
-            sum += parseInt(scores[key]);
-        }
+// Define a function to get a chat prompt
+async function getPrompt(prompt) {
+  try {
+    const response = await openai.chat.completions.create({
+      model: 'gpt-3.5-turbo',
+      messages: prompt,
+      temperature: 0.5,
+      max_tokens: 200,
+    });
+    return response.choices[0].message.content;
+    // return response.data.choices[0].message.content;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+
+app.use(express.json());
+
+app.post('/Questions',checkAuth, async (req, res) => {
+    //Update the Adive 
+    
+    const updatedb=async(ans)=>{
+         await User.updateOne(
+            { _id: req.user._id },
+            { $set: { message: ans } }
+        )
+        .then((result) => {
+            console.log(`updated`);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }       
+  
+    //calculating the score
+  const scores = req.body;
+  let sum = 0;
+
+  for (const key in scores) {
+    if (scores.hasOwnProperty(key)) {
+      sum += parseInt(scores[key]);
     }
+  }
 
-    console.log(sum);
+  console.log(sum);
 
+  let ans = '';
+
+  if (sum >= 16) {
+    // Initial phase of anxiety
+    const message = [
+        { role: 'system', content: 'You are a helpful assistant.' },
+        { role: 'user', content: 'I have been feeling extremely anxious lately. Can you provide some tips for managing anxiety?' },
+        { role: 'assistant', content: 'I understand that dealing with anxiety can be challenging. Here are some tips that might help:' },
+        { role: 'assistant', content: '1. Practice deep breathing exercises to calm your mind.' },
+        { role: 'assistant', content: '2. Consider talking to a mental health professional for support.' },
+        { role: 'assistant', content: '3. Engage in regular physical activity to reduce stress.' },
+        { role: 'assistant', content: '4. Try mindfulness meditation to stay grounded in the present moment.' },
+        { role: 'user', content: 'What can I do if I am in the initial phase of anxiety?' }
+      ];
+      ans = await getPrompt(message);
+      updatedb(ans);
+      redirect('/Account')
+    
+    
+  } else if (sum >= 12 && sum <= 16) {
    
-    
-    if(sum>=16){
-        res.status(200).json({ message: "Your are healthy"});
-    }
-    else if(sum>=12 && sum<=16){
-        res.status(200).json({ message: "You need a little bit of focus in your routine."});
-        
-    }
-    else if(sum>=8 && sum <=12){
-        res.status(200).json({ message: "You need to focus more on your life style and food habits"});
+    const message = [
+        { role: 'system', content: 'You are a helpful assistant.' },
+        { role: 'user', content: 'I have been feeling extremely anxious lately. Can you provide some tips for managing anxiety?' },
+        { role: 'assistant', content: 'I understand that dealing with anxiety can be challenging. Here are some tips that might help:' },
+        { role: 'assistant', content: '1. Practice deep breathing exercises to calm your mind.' },
+        { role: 'assistant', content: '2. Consider talking to a mental health professional for support.' },
+        { role: 'assistant', content: '3. Engage in regular physical activity to reduce stress.' },
+        { role: 'assistant', content: '4. Try mindfulness meditation to stay grounded in the present moment.' },
+      ];;
+      ans = await getPrompt(message);
+      updatedb(ans);
+      redirect('/Account')
+  } 
+  
+  
+  
+    else if (sum >= 8 && sum <= 12) {
+    const message= [
+        { role: 'system', content: 'You are a helpful assistant.' },
+        { role: 'user', content: 'I have been feeling extremely anxious lately. Can you provide some tips for managing anxiety?' },
+        { role: 'assistant', content: 'I understand that dealing with extreme anxiety can be very challenging. First, I want to acknowledge your feelings and let you know that you are not alone in this. Would you like to share more about what is been causing this extreme anxiety or any specific situations that trigger it?' },
+      ];
+      ans = await getPrompt(message);
+      updatedb(ans);
+      redirect('/Account')
+  } else {
+    const message = [
+        { role: 'system', content: 'You are a helpful assistant.' },
+        { role: 'user', content: 'I have been feeling extremely anxious lately. Can you provide some tips for managing anxiety?' },
+        { role: 'assistant', content: 'I understand that dealing with anxiety can be challenging. Here are some tips that might help:' },
+        { role: 'assistant', content: '1. Practice deep breathing exercises to calm your mind.' },
+        { role: 'assistant', content: '2. Consider talking to a mental health professional for support.' },
+        { role: 'assistant', content: '3. Engage in regular physical activity to reduce stress.' },
+        { role: 'assistant', content: '4. Try mindfulness meditation to stay grounded in the present moment.' },
+        { role: 'user', content: 'What can I do to stay motivated while managing my anxiety?' },
+      ];
+      ans = await getPrompt(message);
+      updatedb(ans);
+      redirect('/Account')
+  }
 
-    }
+  res.status(200).json({ message: ans });
+});
 
-    else{
-        res.status(200).json({ message: "You didnot make the choice"});
-
-    }
-
-     
- 
-    
-})
-app.listen(PORT,function(){
-    console.log("Server at 3000");
-})
-
-module.exports.expressApp = serverless(app);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

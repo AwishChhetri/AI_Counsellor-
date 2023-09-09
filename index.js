@@ -1,26 +1,26 @@
 const express=require('express');
 const ejs=require('ejs');
 const app=express();
+const env=require('dotenv')
 const OpenAI = require('openai');
 const serverless = require('serverless-http');
 const cookieParser=require('cookie-parser');
 const mongoose=require('mongoose');
 const bodyParser=require('body-parser');
-const db="mongodb+srv://abishchhetri2502:5RedEYg7DsGaIdEA@cluster0.we93acd.mongodb.net/Welling?retryWrites=true&w=majority"
 const jwt=require('jsonwebtoken')
 const PORT= process.env.PORT || 8080
-secretKey="HelloEveryOne"
+
 app.use(express.static(__dirname+'/public'));
 app.set('view engine','ejs');
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(cookieParser());
 app.use(express.json())
 
+require('dotenv').config();
 
 
 
-
-mongoose.connect(db).then(()=>{
+mongoose.connect(process.env.uri).then(()=>{
     console.log('connected successful')}).catch((err)=>{
         console.log(err)
 })
@@ -42,7 +42,7 @@ const userSchema=mongoose.Schema({
     },
     message:{
         type:String,
-        default:"You haven't taken the test."
+        default:"You haven't taken the test!"
     }
 
 },
@@ -55,7 +55,10 @@ const userSchema=mongoose.Schema({
 
 const User=new mongoose.model('user', userSchema);
 
-
+app.get("/logout",(req,res)=>{
+    res.clearCookie();
+    res.redirect('/')
+})
 
 app.get("/login",(req,res)=>{
     res.render('login');
@@ -79,7 +82,6 @@ app.post("/register",async(req,res)=>{
             password:req.body.password
             
         })
-        console.log(userSave)
 
         userSave.save()
         res.redirect('/login')
@@ -95,13 +97,12 @@ app.post("/register",async(req,res)=>{
 
 const checkAuth = (req, res, next)=> {
     const authHeader = req.cookies.__token;
-    console.log(authHeader,'authHeader');
     const token = req.cookies.__token;
     if(!token){
         res.redirect("/login")
         return false
     }
-    jwt.verify(token, secretKey, async(err,decoded) => {
+    jwt.verify(token, process.env.secretKey, async(err,decoded) => {
         if(err) throw err;
         console.log(decoded)
         if(decoded.ID){
@@ -126,13 +127,7 @@ const checkAuth = (req, res, next)=> {
 
   app.get("/Account",checkAuth,(req,res)=>{
     if(req.user){
-        console.log("this is question route",req.user.firstName)
-        // res.render("secrets",{Fname:req.user.firstname,
-        //     Lname:req.user.lastname,
-        //     Email:req.user.email,
-        //     Age:req.user.Age,
-        //     Image:req.user.image,
-        // });
+       
         res.render('account',{name:req.user.firstName, email:req.user.email, phone:req.user.phoneNumber, message:req.user.message});
 
     }else{
@@ -144,13 +139,7 @@ const checkAuth = (req, res, next)=> {
 
 app.get("/Questions",checkAuth,(req,res)=>{
     if(req.user){
-        console.log("this is question route",req.user.firstName)
-        // res.render("secrets",{Fname:req.user.firstname,
-        //     Lname:req.user.lastname,
-        //     Email:req.user.email,
-        //     Age:req.user.Age,
-        //     Image:req.user.image,
-        // });
+        
         res.render('Questions',{name:req.user.firstName, email:req.user.email, phone:req.user.phoneNumber});
 
     }else{
@@ -162,17 +151,14 @@ app.get("/Questions",checkAuth,(req,res)=>{
 
 
 app.post("/login",async(req,res)=>{
-    console.log('This is for login:',req.body)
 
     const result=await User.findOne({email:req.body.email});
    
-    console.log(result)
     if(!result)
-     {console.log(" Not resgistered ");
+     {
       res.redirect(`/login`)}
     else { 
-        const token = jwt.sign({ID:result._id}, secretKey, { expiresIn: '30d' });
-                console.log(`Hence the generated token:${token}`);
+        const token = jwt.sign({ID:result._id}, process.env.secretKey, { expiresIn: '30d' });
                 res.cookie('__token',token);
                 // console.log(res);
                 res.redirect('/Account');
@@ -201,7 +187,7 @@ app.post("/login",async(req,res)=>{
 
 // Initialize the OpenAI instance with your API key
 const openai = new OpenAI({
-  apiKey: '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',
+  apiKey: `${process.env.API_URL}`,
 });
 
 // Define a function to get a chat prompt
@@ -210,7 +196,7 @@ async function getPrompt(prompt) {
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: prompt,
-      temperature: 0.5,
+      temperature: 0.6,
       max_tokens: 200,
     });
     return response.choices[0].message.content;
@@ -259,15 +245,10 @@ app.post('/Questions',checkAuth, async (req, res) => {
         { role: 'system', content: 'You are a helpful assistant.' },
         { role: 'user', content: 'I have been feeling extremely anxious lately. Can you provide some tips for managing anxiety?' },
         { role: 'assistant', content: 'I understand that dealing with anxiety can be challenging. Here are some tips that might help:' },
-        { role: 'assistant', content: '1. Practice deep breathing exercises to calm your mind.' },
-        { role: 'assistant', content: '2. Consider talking to a mental health professional for support.' },
-        { role: 'assistant', content: '3. Engage in regular physical activity to reduce stress.' },
-        { role: 'assistant', content: '4. Try mindfulness meditation to stay grounded in the present moment.' },
-        { role: 'user', content: 'What can I do if I am in the initial phase of anxiety?' }
       ];
       ans = await getPrompt(message);
       updatedb(ans);
-      redirect('/Account')
+      res.redirect('/Account')
     
     
   } else if (sum >= 12 && sum <= 16) {
@@ -276,14 +257,10 @@ app.post('/Questions',checkAuth, async (req, res) => {
         { role: 'system', content: 'You are a helpful assistant.' },
         { role: 'user', content: 'I have been feeling extremely anxious lately. Can you provide some tips for managing anxiety?' },
         { role: 'assistant', content: 'I understand that dealing with anxiety can be challenging. Here are some tips that might help:' },
-        { role: 'assistant', content: '1. Practice deep breathing exercises to calm your mind.' },
-        { role: 'assistant', content: '2. Consider talking to a mental health professional for support.' },
-        { role: 'assistant', content: '3. Engage in regular physical activity to reduce stress.' },
-        { role: 'assistant', content: '4. Try mindfulness meditation to stay grounded in the present moment.' },
       ];;
       ans = await getPrompt(message);
       updatedb(ans);
-      redirect('/Account')
+      res.redirect('/Account')
   } 
   
   
@@ -296,7 +273,7 @@ app.post('/Questions',checkAuth, async (req, res) => {
       ];
       ans = await getPrompt(message);
       updatedb(ans);
-      redirect('/Account')
+      res.redirect('/Account')
   } else {
     const message = [
         { role: 'system', content: 'You are a helpful assistant.' },
@@ -310,10 +287,9 @@ app.post('/Questions',checkAuth, async (req, res) => {
       ];
       ans = await getPrompt(message);
       updatedb(ans);
-      redirect('/Account')
+      res.redirect('/Account')
   }
 
-  res.status(200).json({ message: ans });
 });
 
 app.listen(PORT, () => {

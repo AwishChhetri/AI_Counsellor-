@@ -20,7 +20,7 @@ require('dotenv').config();
 
 
 
-mongoose.connect("mongodb+srv://abishchhetri2502:5RedEYg7DsGaIdEA@cluster0.we93acd.mongodb.net/Welling?retryWrites=true&w=majority").then(()=>{
+mongoose.connect("mongodb+srv://abishchhetri2502:5RedEYg7DsGaIdEA@cluster0.we93acd.mongodb.net/Welling?retryWrites=true&w=majority",{ useNewUrlParser: true, useUnifiedTopology: true }).then(()=>{
     console.log('connected successful')}).catch((err)=>{
         console.log(err)
 })

@@ -9,7 +9,7 @@ const mongoose=require('mongoose');
 const bodyParser=require('body-parser');
 const jwt=require('jsonwebtoken')
 const PORT= process.env.PORT || 8080
-
+const { AbortController } = require('abort-controller');
 app.use(express.static(__dirname+'/public'));
 app.set('view engine','ejs');
 app.use(bodyParser.urlencoded({extended:true}))
@@ -185,12 +185,10 @@ app.post("/login",async(req,res)=>{
 
 
 
-// Initialize the OpenAI instance with your API key
 const openai = new OpenAI({
   apiKey: `${process.env.API_URL}`,
 });
 
-// Define a function to get a chat prompt
 async function getPrompt(prompt) {
   try {
     const response = await openai.chat.completions.create({
@@ -200,7 +198,6 @@ async function getPrompt(prompt) {
       max_tokens: 200,
     });
     return response.choices[0].message.content;
-    // return response.data.choices[0].message.content;
   } catch (error) {
     console.error('Error:', error);
     throw error;

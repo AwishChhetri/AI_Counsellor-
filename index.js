@@ -56,7 +56,7 @@ const userSchema=mongoose.Schema({
 const User=new mongoose.model('user', userSchema);
 
 app.get("/logout",(req,res)=>{
-    res.clearCookie();
+    res.clearCookie(`__token`);
     res.redirect('/')
 })
 

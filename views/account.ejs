@@ -17,8 +17,36 @@
     
     <button> <a href="/Questions">Take the test!</a><br></button>
     <h2>Previous Advice:</h2>
-    <p name="name"><%- message %></p>
-
+    <p><%= message %></p>
+    
+    <% const myString = message.trim(); %>
+    <% let isWord = false; %>
+    <% let wordString = '\n'; %>
+    
+    <% for (let i = 0; i < myString.length; i++) { %>
+      <% const currentChar = myString[i]; %>
+    
+      <% if (currentChar === ' \n ') { %>
+        <% if (isWord) { %>
+          <%= wordString %> <!-- Display the word -->
+          <% wordString = ''; %> <!-- Reset the word string -->
+        <% } %>
+        <% isWord = false; %>
+      <% } else { %>
+        <% isWord = true; %>
+        <% wordString += currentChar; %>
+      <% } %>
+    <% } %>
+    
+    <% if (isWord) { %>
+      <%= wordString %> <!-- Display the last word -->
+    <% } %>
+    
+    
+    
+    
     <button> <a href="/logout">Log Out</a><br></button>
+
+    
 </body>
 </html>

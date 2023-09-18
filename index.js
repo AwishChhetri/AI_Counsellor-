@@ -64,6 +64,12 @@ app.get("/login",(req,res)=>{
     res.render('login');
 })
 
+app.get("/face",(req,res)=>{
+    res.render('faceDetection');
+})
+
+
+
 
 
 app.get("/",(req,res)=>{

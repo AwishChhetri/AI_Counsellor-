@@ -1,28 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/accounts.css" />
     <title>Document</title>
-</head>
-<body>
-    
-    <h1>Your Account:<br></h1>
-    <h2>Name:</h2>
-    <label name="name"><%- name %></label>
-    <h2>Email</h2>
-    <label name="name"><%- email %></label>
-    <h2>Phone</h2>
-    <label name="name"><%- phone %></label>
-    
-    <button> <a href="/Questions">Take the test!</a><br></button>
-    <h2>Previous Advice:</h2>
-    <p><%= message %></p>
-    
-    
-    
-    <button> <a href="/logout">Log Out</a><br></button>
-
-    
-</body>
+  </head>
+  <body>
+    <section>
+      <div class="container">
+        <h1>Account Details:<br /></h1>
+        <div id="info">
+          <label name="name"><span>Name:</span><%- name %></label>
+          <br>
+          <label name="name"><span>Email:</span><%- email %></label>
+          <br>
+          <label name="name"><span>Contact No:</span><%- phone %></label>
+        </div>
+        <br>
+        <div id="take-test">
+          <button class="bn632-hover bn22 bt">
+            <a href="/Questions">Take the test!</a><br />
+          </button>
+        </div>
+        <br>
+        <h2>Previous Advice:</h2>
+        <div class="scrollable-text">
+          <p><%- message %></p>
+        </div>
+        <br>
+        <br>
+        <button class="bn632-hover bn22 bt logout">
+          <a href="/logout">Log Out</a><br />
+        </button>
+      </div>
+    </section>
+  </body>
 </html>

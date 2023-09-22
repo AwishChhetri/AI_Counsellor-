@@ -246,8 +246,8 @@ app.post('/Questions',checkAuth, async (req, res) => {
     // Initial phase of anxiety
     const message = [
         { role: 'system', content: 'You are a helpful assistant.' },
-        { role: 'user', content: 'I have been feeling extremely anxious lately. Can you provide some tips for managing anxiety?' },
-        { role: 'assistant', content: 'I understand that dealing with anxiety can be challenging. Here are some tips that might help:' },
+        { role: 'user', content: 'I need tips on mental health?' },
+        { role: 'assistant', content: 'It seems like you are in good mental health, which is wonderful to hear. However, remember that mental health can fluctuate, so its essential to continue practicing self-care and reach out for support if you ever feel the need. Keep up the positive attitude' },
       ];
       ans = await getPrompt(message);
       updatedb(ans);
@@ -258,8 +258,8 @@ app.post('/Questions',checkAuth, async (req, res) => {
    
     const message = [
         { role: 'system', content: 'You are a helpful assistant.' },
-        { role: 'user', content: 'I have been feeling extremely anxious lately. Can you provide some tips for managing anxiety?' },
-        { role: 'assistant', content: 'I understand that dealing with anxiety can be challenging. Here are some tips that might help:' },
+        { role: 'user', content: 'I need tips on mental health?' },
+        { role: 'assistant', content: `It appears that you may be experiencing some mild mental health symptoms. It's important to acknowledge these feelings and consider seeking support. Remember, reaching out to friends, family, or a mental health professional can make a significant difference in how you feel`},
       ];;
       ans = await getPrompt(message);
       updatedb(ans);
@@ -271,8 +271,8 @@ app.post('/Questions',checkAuth, async (req, res) => {
     else if (sum >= 8 && sum <= 12) {
     const message= [
         { role: 'system', content: 'You are a helpful assistant.' },
-        { role: 'user', content: 'I have been feeling extremely anxious lately. Can you provide some tips for managing anxiety?' },
-        { role: 'assistant', content: 'I understand that dealing with extreme anxiety can be very challenging. First, I want to acknowledge your feelings and let you know that you are not alone in this. Would you like to share more about what is been causing this extreme anxiety or any specific situations that trigger it?' },
+        { role: 'user', content: 'I need tips on mental health?' },
+        { role: 'assistant', content: `Your responses indicate that you may be dealing with moderate mental health symptoms. It's essential to prioritize your well-being and consider speaking with a mental health professional. They can provide guidance and support to help you manage these challenges.` },
       ];
       ans = await getPrompt(message);
       updatedb(ans);
@@ -280,13 +280,9 @@ app.post('/Questions',checkAuth, async (req, res) => {
   } else {
     const message = [
         { role: 'system', content: 'You are a helpful assistant.' },
-        { role: 'user', content: 'I have been feeling extremely anxious lately. Can you provide some tips for managing anxiety?' },
-        { role: 'assistant', content: 'I understand that dealing with anxiety can be challenging. Here are some tips that might help:' },
-        { role: 'assistant', content: '1. Practice deep breathing exercises to calm your mind.' },
-        { role: 'assistant', content: '2. Consider talking to a mental health professional for support.' },
-        { role: 'assistant', content: '3. Engage in regular physical activity to reduce stress.' },
-        { role: 'assistant', content: '4. Try mindfulness meditation to stay grounded in the present moment.' },
-        { role: 'user', content: 'What can I do to stay motivated while managing my anxiety?' },
+        { role: 'user', content: 'I need tips on mental health?' },
+        { role: 'assistant', content: `Your answers suggest that you are facing severe mental health symptoms. It's crucial to seek immediate help and not face these challenges alone. Reach out to a mental health professional, a trusted friend, or a helpline right away. You don't have to go through this on your own, and there is support available` },
+       
       ];
       ans = await getPrompt(message);
       updatedb(ans);

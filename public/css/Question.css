@@ -1,129 +1,227 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
-
 * {
     margin: 0;
     padding: 0;
+    font-family: "Source Code Pro", monospace;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-
-html,
-body {
-    display: grid;
-    height: 100%;
-    place-items: center;
-}
-
-.wrapper {
-    width: 350px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.2);
-}
-
-.wrapper .title {
-    color: #fff;
-    line-height: 65px;
-    text-align: center;
-    background: #233;
-    font-size: 25px;
-    font-weight: 500;
-    border-radius: 10px 10px 0 0;
-}
-
-.wrapper .box {
-    padding: 20px 30px;
-    background: #fff;
-    border-radius: 10px;
-}
-
-.wrapper .box label {
+  }
+  body{
     display: flex;
-    height: 53px;
-    width: 100%;
+    justify-content: space-around;
     align-items: center;
-    border: 1px solid lightgrey;
-    border-radius: 50px;
-    margin: 10px 0;
-    padding-left: 20px;
-    cursor: default;
-    transition: all 0.3s ease;
+    padding-right: 50px;
+    background-color: #0d150c;
+    color: #04fe85;
+  }
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+  }
+  
+.container {
+    max-width: 800px; 
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
 }
 
-#option-1:checked~.option-1,
-#option-2:checked~.option-2,
-#option-3:checked~.option-3,
-#option-4:checked~.option-4 {
-    background: #333;
-    border-color: #333;
+/* Style the form elements */
+form ul.Q {
+    list-style: none;
+    padding: 0;
 }
 
-.wrapper .box label .dot {
-    height: 20px;
-    width: 20px;
-    background: #d9d9d9;
-    border-radius: 50%;
-    position: relative;
-    transition: all 0.3s ease;
+form ul.Q li {
+    margin-bottom: 20px;
 }
 
-#option-1:checked~.option-1 .dot,
-#option-2:checked~.option-2 .dot,
-#option-3:checked~.option-3 .dot,
-#option-4:checked~.option-4 .dot {
-    background: #fff;
-}
-
-.box label .dot::before {
-    position: absolute;
-    content: "";
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(2);
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-}
-
-#option-1:checked~.option-1 .dot::before,
-#option-2:checked~.option-2 .dot::before,
-#option-3:checked~.option-3 .dot::before,
-#option-4:checked~.option-4 .dot::before {
-    background: #333;
-    transform: translate(-50%, -50%) scale(1);
-}
-
-.wrapper .box label .text {
-    color: #333;
+h4 {
     font-size: 18px;
-    font-weight: 400;
-    padding-left: 10px;
-    transition: color 0.3s ease;
+    margin-bottom: 10px;
+    color: azure;
+    font-weight: 900;
+    padding-top: 30px;
 }
 
-#option-1:checked~.option-1 .text,
-#option-2:checked~.option-2 .text,
-#option-3:checked~.option-3 .text,
-#option-4:checked~.option-4 .text {
-    color: #fff;
+.choices label {
+    display: block;
+    margin-bottom: 5px;
+    list-style: none;
 }
 
-.wrapper .box input[type="radio"] {
-    display: none;
+.choices input[type="radio"] {
+    margin-right: 5px; 
+    display: none;  
+}
+li{
+    list-style: none;
+}
+label{
+    background-color: #47ec4a;
+    color: rgb(12, 12, 12);
+    width: 200px;
+    height: 30px;
+    text-align: center;
+    border-radius: 20px;
+    padding-top: 5px;
+    font-size: small;
+}
+label:hover{
+    background-color: #ceebcf;
 }
 
-.btn{
-        /* display: inline-flex; */
-        height: 52px;
-        width: auto;
-        margin-right: 21px;
-        border: 1px solid lightgrey;
-        border-radius: 50px;
-        margin: 19px 0;
-        padding-left: 20px;
-        cursor: default;
-        transition: all 0.3s ease;
-        margin-left: 167px;
+.canvas{
+    background-color: rgb(28, 244, 219);
+    height: 300px;
+    width: 200px;  
+    top: 0;
+    position: sticky;
 }
+/* submit button */
+.bn632-hover {
+    
+    width: 110px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #0d150c;
+    cursor: pointer;
+    margin: 10px;
+    height: 60px;
+    width: 400px;
+    text-align: center;
+    border: none;
+    background-size: 300% 100%;
+    border-radius: 10px;
+    moz-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+  }
+  
+  .bn632-hover:hover {
+    color: rgb(40, 125, 76);
+    background-position: 100% 0;
+    moz-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+  }
+  
+  .bn632-hover:focus {
+    outline: none;
+  }
+  
+  .bn632-hover.bn22 {
+    background-image: linear-gradient(
+      to right,
+      #b7e4d1,
+      #21ee25,
+      #04fe85,
+      #19e784
+    );
+    box-shadow: 0 4px 15px 0 rgba(18, 131, 84, 0.75);
+  }
+  .btn{
+    background-color: #366a31;
+    color:#172423 ;
+    border: none;
+    font-size: smaller;
+    border-radius: 5px;
+  }
+  
 
+  @media only screen and (min-device-width: 280px) and (max-device-width: 800px) {
+    
+      
+    .container {
+        
+        margin: 0 auto;
+        padding: 8px;
+        
+    }
+    
+    /* Style the form elements */
+    form ul.Q {
+        list-style: none;
+        padding: 0;
+    }
+    
+    form ul.Q li {
+        margin-bottom: 8px;
+    }
+    h1{
+        font-size: medium;
+    }
+    
+    h4 {
+        font-size: 6px;
+        margin-bottom: 5px;
+        color: azure;
+        font-weight: 700;
+        padding-top: 10px;
+    }
+    
+    .choices label {
+        display: block;
+        margin-bottom: 5px;
+        list-style: none;
+    }
+    
+    .choices input[type="radio"] {
+        margin-right: 5px; 
+        display: none;  
+    }
+    li{
+        list-style: none;
+    }
+    label{
+        background-color: #47ec4a;
+        color: rgb(12, 12, 12);
+        width:40%;
+        height: 40%;
+        text-align: center;
+        border-radius: 20px;
+        padding-top: 2px;
+        font-size:5px;
+    }
+    label:hover{
+        background-color: #ceebcf;
+    }
+    
+    .canvas{
+        background-color: rgb(28, 244, 219);
+        height: 40%;
+        width: 40%;  
+        top: 0;
+        position: sticky;
+    }
+    .bn632-hover {
+    
+        width: 40%;
+        font-size: 7px;
+        font-weight: 600;
+        color: #0d150c;
+        cursor: pointer;
+        margin: 10px;
+        height: 50%;
+        width: 50%;
+        text-align: center;
+        border: none;
+        background-size: 300% 100%;
+        border-radius: 10px;
+        moz-transition: all 0.4s ease-in-out;
+        -o-transition: all 0.4s ease-in-out;
+        -webkit-transition: all 0.4s ease-in-out;
+        transition: all 0.4s ease-in-out;
+      }
+      .btn{
+       width: 70px;
+       height: 20px;
+       font-size: 5px;
+       padding-bottom: 7px;
+       background-color: #366a31;
+       color:#172423 ;
+      }
+  }

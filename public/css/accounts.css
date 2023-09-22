@@ -1,0 +1,145 @@
+/* body {
+    font-family: "Source Code Pro", monospace;
+    margin: 0;
+    padding: 0;
+    background-color: black;
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: #3cba92;
+  }
+  #info {
+    display: flex;
+    flex-direction: column;
+    align-items: self-start;
+    padding-bottom: 10px;
+    justify-content: left;
+    color: #19e784;
+  }
+  #take-test {
+    padding-bottom: 70px;
+  }
+  h2 {
+    color: #3cba92;
+    font-weight: 900;
+  }
+  span {
+    color: rgb(184, 218, 218);
+  }
+  label {
+    font-size: small;
+  }
+  
+  .scrollable-text {
+    max-height: 300px; /* Adjust the maximum height as needed */
+    overflow-y: auto;
+    border: 1px solid #b3feae;
+    color: rgb(203, 213, 223);
+    padding: 10px;
+  }
+  .bn632-hover {
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+  
+    cursor: pointer;
+    margin: 20px;
+    height: 60px;
+    width: 500px;
+    text-align: center;
+    border: none;
+    background-size: 300% 100%;
+    border-radius: 20px;
+    moz-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+  }
+  .logout {
+    width: 200px;
+    height: 20px;
+    font-weight: 300;
+    font-size: small;
+  }
+  a {
+    text-decoration: none;
+    color: aliceblue;
+  }
+  
+  .bn632-hover:hover {
+    background-position: 100% 0;
+    moz-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+  }
+  
+  .bn632-hover:focus {
+    outline: none;
+  }
+  
+  .bn632-hover.bn22 {
+    background-image: linear-gradient(
+      to right,
+      #0ba360,
+      #3cba92,
+      #04fe85,
+      #19e784
+    );
+  
+    box-shadow: 0 4px 15px 0 rgba(18, 131, 84, 0.75);
+  }
+  
+  @media only screen and (min-device-width: 280px) and (max-device-width: 600px) {
+    .container {
+      max-width: 150px;
+  
+      padding: 10px;
+    }
+    .bn632-hover {
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 300;
+  
+      cursor: pointer;
+      margin: 20px;
+      height: 40px;
+      width: 200px;
+      text-align: center;
+      border: none;
+      background-size: 200% 100%;
+      border-radius: 20px;
+    }
+    .logout {
+      width: 50px;
+      height: 15px;
+      font-weight: 150;
+      font-size: xx-small;
+    }
+    h2,
+    h1,
+    span,
+    a,
+    p,
+    label {
+      font-size: 60%;
+    }
+    #take-test {
+      padding-bottom: 30px;
+    }
+    .scrollable-text {
+      max-height: 200px; /* Adjust the maximum height as needed */
+      overflow-y: auto;
+      max-width: 70%;
+      border: 1px solid #b3feae;
+      color: rgb(203, 213, 223);
+      padding: 2px 10px;
+      scrollbar-color: #b3feae;
+    }
+  } */

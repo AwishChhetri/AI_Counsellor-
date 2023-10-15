@@ -1,5 +1,6 @@
 # AI Counsellor
 
-A user-friendly web application that analyzes symptoms to suggest potential diseases and offers personalized ayurvedic remedies. Users input their symptoms through a short questionnaire, and the application provides relevant health insights and natural solutions for improved well-being.
+"Introducing a groundbreaking AI interface app that revolutionizes disorder identification through a unique blend of interactive questioning and real-time facial expression and voice analysis. Our cutting-edge facial recognition tech scrutinizes micro-expressions, decoding emotional cues via a sophisticated ML model during each session. Interactive questioning keeps users engaged, unveiling their emotional and psychological state. Our advanced voice-enabled model not only enriches communication but also substantially elevates the precision of advice and interactions. This app empowers a new era of mental health support and diagnostics, delivering accurate insights and personalized guidance to improve well-being."
+
 
 https://welling-onbj.onrender.com/
